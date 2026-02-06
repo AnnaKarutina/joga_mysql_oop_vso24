@@ -10,7 +10,7 @@ class ArticleController {
     async getAllArticles(req, res) {
         try {
             const articles = await this.model.findAll();
-            res.status(201).json(articles);
+            res.status(201).json({articles: articles});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
