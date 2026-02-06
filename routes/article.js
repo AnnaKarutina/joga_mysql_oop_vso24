@@ -12,6 +12,7 @@ class ArticleRouter {
     initRoutes() {
         this.router.get('/', this.controller.getAllArticles);
         this.router.get('/article/:slug', this.controller.getArticleBySlug);
+        this.router.post('/article/create', this.controller.createArticle);
     }
 
     getRouter() {

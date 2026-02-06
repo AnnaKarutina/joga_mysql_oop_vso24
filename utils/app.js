@@ -20,6 +20,7 @@ class App {
 
     initMiddleware() {
         this.app.use(express.json())
+        this.app.use(express.urlencoded({ extended: true }))
     }
 
     initRoutes() {
