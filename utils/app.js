@@ -1,5 +1,6 @@
 const express = require('express')
 const articleRoutes = require('../routes/article')
+const authorRoutes = require('../routes/author')
 
 class App {
     constructor(port) {
@@ -23,6 +24,7 @@ class App {
 
     initRoutes() {
         this.app.use('/', articleRoutes)
+        this.app.use('/', authorRoutes)
     }
 
     start() {

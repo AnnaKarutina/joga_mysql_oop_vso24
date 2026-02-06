@@ -9,6 +9,10 @@ class ArticleModel extends BaseSQLModel {
     return await super.findOne('slug', slug);
   }
 
+  async findMany(author) {
+    return await super.findMany('author_id', author.id);
+  }
+  
 }
-
+ 
 module.exports = new ArticleModel();
