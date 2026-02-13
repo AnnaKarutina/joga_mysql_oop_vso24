@@ -11,6 +11,26 @@ class UserController {
 
     async register(req, res) {
         try {
+            const existingUser = await this.model.findOne(req.body.username)
+            if(existingUser){
+                return res.status(400).json({
+                    message: 'Username already exists'
+                })
+            }
+
+            if(req.body.password.length < 6){
+                return res.status(400).json({
+                    message: 'Password must be at least 6 characters long'
+                })
+            }
+
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/;
+            if (!req.body.password.match(passwordRegex)) {
+                return res.status(400).json({
+                    message: 'Password must be at least 6 characters and include uppercase, lowercase, number and special character'
+                });
+            }
+
             const cryptPassword = await bcrypt.hash(req.body.password, 10)
             const registeredUserId = await this.model.create({
                 username: req.body.username,
