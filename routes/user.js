@@ -11,6 +11,8 @@ class UserRouter {
 
     initRoutes() {
         this.router.post('/users/register', this.controller.register);
+        this.router.post('/users/login', this.controller.login);
+        this.router.post('/users/logout', this.controller.logout)
     }
 
     getRouter() {

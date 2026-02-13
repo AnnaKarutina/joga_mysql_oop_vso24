@@ -7,6 +7,8 @@ class UserController {
     constructor() {
         this.model = UserModel;
         this.register = this.register.bind(this);
+        this.login = this.login.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     async register(req, res) {
@@ -53,6 +55,43 @@ class UserController {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
+    }
+
+    async login(req, res){
+        try {
+            const user = await this.model.findOne(req.body.username)
+
+            if(!user){
+                return res.status(400).json({
+                    message: 'Username not exists'
+                })
+            }
+
+            const passwordCompare = await bcrypt.compare(req.body.password, user.password)
+            if(!passwordCompare){
+                return res.status(400).json({
+                    message: 'Password is incorrect'
+                })
+            }
+
+            req.session.user = {
+                user_id: user.id,
+                username: user.username
+            }
+            res.status(201).json({ 
+                message: 'Login successful',
+                session: req.session.user   
+            });
+        } catch(error){
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async logout(req, res){
+        req.session.destroy()
+        res.status(201).json({ 
+            message: 'Logout successful',   
+        });
     }
 
 }
