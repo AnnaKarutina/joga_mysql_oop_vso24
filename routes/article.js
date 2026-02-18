@@ -1,5 +1,6 @@
 const express = require('express');
 const ArticleController = require('../controllers/article');
+const { requireRole } = require('../utils/auth') 
 
 class ArticleRouter {
     constructor() {
@@ -12,9 +13,10 @@ class ArticleRouter {
     initRoutes() {
         this.router.get('/', this.controller.getAllArticles);
         this.router.get('/article/:slug', this.controller.getArticleBySlug);
-        this.router.post('/article/create', this.controller.createArticle);
-        this.router.put('/article/edit/:id', this.controller.updateArticle);
-        this.router.delete('/article/delete/:id', this.controller.deleteArticle);
+
+        this.router.post('/article/create', requireRole('admin'), this.controller.createArticle);
+        this.router.put('/article/edit/:id', requireRole('admin'), this.controller.updateArticle);
+        this.router.delete('/article/delete/:id', requireRole('admin'), this.controller.deleteArticle);
     }
 
     getRouter() {

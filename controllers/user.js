@@ -43,7 +43,8 @@ class UserController {
                 const userData = await this.model.findById(registeredUserId)
                 req.session.user = {
                     user_id: userData.id,
-                    username: userData.username
+                    username: userData.username,
+                    role: userData.role
                 }
                 res.status(201).json({ 
                     message: 'New user is registered',
@@ -76,7 +77,8 @@ class UserController {
 
             req.session.user = {
                 user_id: user.id,
-                username: user.username
+                username: user.username,
+                role: user.role
             }
             res.status(201).json({ 
                 message: 'Login successful',
